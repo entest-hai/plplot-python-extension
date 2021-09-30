@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC   -shared -Wl,-soname,libtest.so -o libtest.so CMakeFiles/test.dir/src/add.c.o -lwavelib -lm -lgsl -lgslcblas -lplplot -lwavelib -lm -lgsl -lgslcblas -lplplot 

@@ -1,8 +1,18 @@
 // 29 SEP 2021 Hai Tran 
 // gcc -shared -o libtest.so -fPIC add.c
-// gcc -o app test.c 
+// gcc -o app test.c
+// 30 SEP 2021 Hai Tran
+// add plplot
+//gcc -o app add.c -I /usr/local/include/plplot/
+
 
 #include<stdio.h>
+#include<math.h>
+#include<string.h>
+#include<time.h>
+#include <plConfig.h>
+#include "plcdemos.h"
+#define NSIZE    101
 
 void myprint(){
     printf("tran minh hai\n");
@@ -29,6 +39,42 @@ int plot_ctg(double* mhr, double* fhr, double* ua, int len){
     }
     return 1;
 }
+
+int testPlplot(){
+    plsfnam("./../test/test.ps");
+    printf("test plplot");
+    PLFLT x[NSIZE], y[NSIZE];
+    PLFLT xmin = 0., xmax = 1., ymin = 0., ymax = 100.;
+    int   i;
+
+    // Prepare data to be plotted.
+    for ( i = 0; i < NSIZE; i++ )
+    {
+        x[i] = (PLFLT) ( i ) / (PLFLT) ( NSIZE - 1 );
+        y[i] = ymax * x[i] * x[i];
+    }
+
+    // Parse and process command line arguments
+//    plparseopts( &argc, argv, PL_PARSE_FULL );
+
+    plsdev("ps");
+
+    // Initialize plplot
+    plinit();
+
+    // Create a labelled box to hold the plot.
+    plenv( xmin, xmax, ymin, ymax, 0, 0 );
+    pllab( "x", "y=100 x#u2#d", "Simple PLplot demo of a 2D line plot" );
+
+    // Plot the data that was prepared above.
+    plline( NSIZE, x, y );
+
+    // Close PLplot library
+    plend();
+
+    exit( 0 );
+}
+
 
 void main(){
     int c = 0; 

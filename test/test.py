@@ -1,4 +1,6 @@
-# 29 SEP 2021 Hai Tran 
+# 29 SEP 2021 Hai Tran
+# 30 SEP 2021 Hai Tran
+# add test plplot and wrap python
 import ctypes 
 import numpy.ctypeslib as ctl 
 import numpy as np
@@ -31,3 +33,5 @@ lib.plot_ctg(
     np.array([60.1,60.2,60.3,60.4,60.5,60.6,60.7,60.8,60.9,70.0]),
     10
 )
+# test plplot
+lib.testPlplot()
