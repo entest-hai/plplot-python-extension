@@ -682,9 +682,9 @@ int testPlotCtgPaper()
         pp_mfhr[4] = double_vec_new(siglen);
 
         read_from_txt_cols("./../data/fheartrate_trace_all.txt", pp_mfhr, 5);
-        // double_vec_read(p_fhr, "./data/BASELINE_CH_4.txt");
-        // double_vec_read(p_mhr, "./data/BASELINE_CH_4.txt");
-        // double_vec_read(p_ua, "./data/BASELINE_CH_4.txt");
+        double_vec_read(p_fhr, "./../data/baseline_ch5.txt");
+//         double_vec_read(p_mhr, "./data/BASELINE_CH_4.txt");
+//         double_vec_read(p_ua, "./data/BASELINE_CH_4.txt");
 
         #ifdef TEST_RENDER_PRINT
         // double_vec_print(p_fhr,10);
