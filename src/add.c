@@ -54,9 +54,7 @@ int testPlplot(){
         y[i] = ymax * x[i] * x[i];
     }
 
-    // Parse and process command line arguments
-//    plparseopts( &argc, argv, PL_PARSE_FULL );
-
+    // Setup printer type
     plsdev("ps");
 
     // Initialize plplot
