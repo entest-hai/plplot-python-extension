@@ -793,13 +793,73 @@ int testPlotCtgPaper()
         render_img(3, p_fhr, p_mhr, p_fbase, p_ua,
             "./../test/data/trace");
     }
-
-
     return 0;
+}
+
+// ==============================test plot a grid==============================
+int testPlotGrid(){
+    // SIGLEN IN TERM OF NUMBER OF SAMPLE EACH 250ms
+    int trace_speed = 1;
+    unsigned int siglen = 2400*3;
+    // SETUP DEVICE OUTPUT
+    plsdev("psc");
+    plsfnam("./grid.ps");
+    // SETUP PARAMETER FOR PPLOT
+    int num_time_blk = 0;
+    int paper_len = 0;
+    int paper_height = 0;
+    int row_length = 0;
+    int sample_blk = 0;
+    // NUMBER OF SAMPLE PER BLOCK OF 10 MINUTES
+    sample_blk = SAMPLE_RATE * BLOCK_SIZE_SEC;
+    //  NUMBER OF BLOCK EACH 10 MINUTES
+    num_time_blk = ceil(siglen / sample_blk);
+    // NUMBER OF ROW DEFAULT 1
+    paper_len    = BLOCK_SIZE_MM * num_time_blk * trace_speed;
+    paper_height = BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[2] + HEIGHT_SEPARATION[3] + HEIGHT_SEPARATION[4]);
+    // DEFINE VIEWPORT FOR FHR AND MHR
+    PLFLT xminv1 =  (4.0 * BOX_SIZE_MM) / paper_len;
+    PLFLT xmaxv1 = 1.0 - (4.0 * BOX_SIZE_MM) / paper_len;
+    PLFLT yminv1 = (1.0 * BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[2])) / paper_height;
+    PLFLT ymaxv1 = (1.0 * BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[3]))/ paper_height;
+    // SET COLOR
+    plscol0(0, 255, 255, 255); /* White, color 0, background */
+    plscol0(15, 0, 0, 0);      /* Black, color 15 */
+    // SET PAGE
+    plspage(DPI_VAL, DPI_VAL, paper_height, paper_len, 0, 0);
+    // INIT PLPLOT
+    plinit();
+    pladv(0); //Advance the (sub-)page
+    // AXIS LIMIT OR RANGE
+    PLFLT xmin_fhr = 0.0;               // TIME MIN
+    PLFLT xmax_fhr = num_time_blk * 10.0 * 60.0;      // TIME MAX
+    PLFLT ymin_fhr = 50.0;              // HEART RATE MIN
+    PLFLT ymax_fhr = 220.0;             // HEART RATE MAX
+    //
+    plwidth(1);
+    // DEFINE VIEWPORT FOR FHR AND MHR
+    plvpas(xminv1, xmaxv1, yminv1, ymaxv1, 0.00);
+    // DEFINE WINDOW FOR FHR AND MHR
+    plwind(xmin_fhr, xmax_fhr, ymin_fhr, ymax_fhr);
+    //SET CHARACTER SIZE
+//    plschr(3.0, 1.0);
+    // SET COLOR
+//    plcol0(15);
+    // TIME FORMAT
+    pltimefmt("%H:%M");
+    // SET CORLOR
+    plcol0(15);
+    plschr(3.0, 1.0);
+    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * trace_speed , "ghbc", 20, 2); //180 1
+    // End plotting
+    plend();
+    // Exit
+    exit(0);
 }
 // ===================================== main =================================
 int main(){
 //    testPlotSimpleGrap();
-    testPlotCtgPaper();
+//    testPlotCtgPaper();
+    testPlotGrid();
     exit(0);
 }
