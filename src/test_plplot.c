@@ -3,6 +3,10 @@
 // build: gcc -o app test_plplot.c -I /usr/local/include/ -I /usr/local/include/plplot/ -lm -lgsl -lgslcblas -lplplot
 // 07 OCT 2021 TRAN MINH HAI
 // next step plot CTG simple grid
+// 07 OCT 2021 TRAN MINH HAI
+// TO DO: check pltimefmt("%H:%M"); and format CTG paper, margin
+// First, check plbox and option x-axis show date time
+// Second, check pltimefmt
 
 #include<stdio.h>
 #include<math.h>
