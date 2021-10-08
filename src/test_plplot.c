@@ -850,8 +850,8 @@ int testPlotGrid(){
 }
 // ===================================== main =================================
 int main(){
-    testPlotSimpleGrap();
+//    testPlotSimpleGrap();
 //    testPlotCtgPaper();
-//    testPlotGrid();
+    testPlotGrid();
     exit(0);
 }
