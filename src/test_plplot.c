@@ -12,12 +12,13 @@
 // Second, check pltimefmt
 //*****************************************************************************
 // 08 OCT 2021 TRAN MINH HAI
+// convert ps to png with white background and high resolution
 // view port, window, box size, and page size
 // view pdf is better than open ps file directly
 // plspage interpretation depends on device drivers
 // convert ps to png using gs
-// gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r600 -sDEVICE=pngalpha -sOutputFile=foo.png myfile.eps
-//  convert -density 300  grid.ps -background white -alpha remove -alpha off grid.png
+// gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r600 -sDEVICE=png16m -sOutputFile=foo.png grid.ps
+// convert -density 300  grid.ps -background white -alpha remove -alpha off grid.png
 //=============================================================================
 #include<stdio.h>
 #include<math.h>
