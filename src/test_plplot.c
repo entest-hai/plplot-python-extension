@@ -816,6 +816,9 @@ int testPlotSimpleGrap()
 }
 // =====================================test plot simple grid==================
 int testPlotGrid(){
+    //
+    int num_ten_min_block = 6;
+    int num_min = num_ten_min_block * 10;
     // Set image name
     plsfnam("./grid.ps");
     // Setup printer
@@ -833,7 +836,7 @@ int testPlotGrid(){
     // set pen width
     plwidth(1.0);
     // set page 100 dpi, width 1000 pixel and height 500 pixel, 0 offset
-    plspage(100,100,10*39,20*39,0,0);
+    plspage(100,100,10*39,num_min*39,0,0);
     // initialise plot
     plinit();
     // set color
@@ -841,10 +844,10 @@ int testPlotGrid(){
     // set subpages
     pladv(0);
     // setup view port absolute mm
-    plsvpa(5,100,5,100);
+    plsvpa(10,100,10,100);
     // setup view port aspect ratio
     // setup window
-    plwind(0.0,20.0*60.0,30.0,300.0);
+    plwind(0.0,num_min*60.0,30.0,300.0);
     // setup both view port and window using plenv
 //    plenv( xmin, xmax, ymin, ymax, 0, 0 );
 //    pllab( "x", "y=100 x#u2#d", "Simple PLplot demo of a 2D line plot" );
