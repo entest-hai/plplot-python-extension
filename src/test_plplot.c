@@ -830,22 +830,35 @@ int testPlotGrid(){
         x[i] = (PLFLT) ( i ) / (PLFLT) ( NSIZE - 1 );
         y[i] = ymax * x[i] * x[i];
     }
-    //
-    plspage(100,100,1000,500,0,0);
-    // Initialize plplot
+    // set pen width
+    plwidth(1.0);
+    // set page 100 dpi, width 1000 pixel and height 500 pixel, 0 offset
+    plspage(100,100,10*39,20*39,0,0);
+    // initialise plot
     plinit();
-//    pladv(0);
+    // set color
+    plcol0(15);
+    // set subpages
+    pladv(0);
     // setup view port absolute mm
-//    plsvpa(10,100,10,100);
+    plsvpa(5,100,5,100);
     // setup view port aspect ratio
     // setup window
-//    plwind(0.0,1.0,0.0,100.0);
+    plwind(0.0,20.0*60.0,30.0,300.0);
     // setup both view port and window using plenv
-    plenv( xmin, xmax, ymin, ymax, 0, 0 );
-    pllab( "x", "y=100 x#u2#d", "Simple PLplot demo of a 2D line plot" );
+//    plenv( xmin, xmax, ymin, ymax, 0, 0 );
+//    pllab( "x", "y=100 x#u2#d", "Simple PLplot demo of a 2D line plot" );
     // Plot the data that was prepared above.
-    plline( NSIZE, x, y );
-    // Close PLplot library
+//    plline( NSIZE, x, y );
+    // time format
+    pltimefmt("%H:%M");
+    // set color
+    plcol0(15);
+    // set charater
+    plschr(3.0, 1.0);
+    // box and grid system
+    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2); //180 1
+    // end plot
     plend();
     // Exit
     exit( 0 );
