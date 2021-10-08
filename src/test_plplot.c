@@ -830,16 +830,18 @@ int testPlotGrid(){
         x[i] = (PLFLT) ( i ) / (PLFLT) ( NSIZE - 1 );
         y[i] = ymax * x[i] * x[i];
     }
+    //
+    plspage(100,100,1000,500,0,0);
     // Initialize plplot
     plinit();
-    pladv(0);
+//    pladv(0);
     // setup view port absolute mm
-    plsvpa(10,100,10,100);
+//    plsvpa(10,100,10,100);
     // setup view port aspect ratio
     // setup window
-    plwind(0.0,1.0,0.0,100.0);
+//    plwind(0.0,1.0,0.0,100.0);
     // setup both view port and window using plenv
-    // plenv( xmin, xmax, ymin, ymax, 0, 0 );
+    plenv( xmin, xmax, ymin, ymax, 0, 0 );
     pllab( "x", "y=100 x#u2#d", "Simple PLplot demo of a 2D line plot" );
     // Plot the data that was prepared above.
     plline( NSIZE, x, y );
