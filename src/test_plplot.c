@@ -1,13 +1,19 @@
+//=============================================================================
 // 30 SEP 2021 TRAN MINH HAI
 // simple test plplot
 // build: gcc -o app test_plplot.c -I /usr/local/include/ -I /usr/local/include/plplot/ -lm -lgsl -lgslcblas -lplplot
+//*****************************************************************************
 // 07 OCT 2021 TRAN MINH HAI
 // next step plot CTG simple grid
+//*****************************************************************************
 // 07 OCT 2021 TRAN MINH HAI
 // TO DO: check pltimefmt("%H:%M"); and format CTG paper, margin
 // First, check plbox and option x-axis show date time
 // Second, check pltimefmt
-
+//*****************************************************************************
+// 08 OCT 2021 TRAN MINH HAI
+// view port, window, box size, and page size
+//=============================================================================
 #include<stdio.h>
 #include<math.h>
 #include<string.h>
@@ -825,7 +831,7 @@ int testPlotGrid(){
     PLFLT xminv1 =  (4.0 * BOX_SIZE_MM) / paper_len;
     PLFLT xmaxv1 = 1.0 - (4.0 * BOX_SIZE_MM) / paper_len;
     PLFLT yminv1 = (1.0 * BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[2])) / paper_height;
-    PLFLT ymaxv1 = (1.0 * BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[3]))/ paper_height;
+    PLFLT ymaxv1 = (1.0 * BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[2] + HEIGHT_SEPARATION[3]))/ paper_height;
     // SET COLOR
     plscol0(0, 255, 255, 255); /* White, color 0, background */
     plscol0(15, 0, 0, 0);      /* Black, color 15 */
