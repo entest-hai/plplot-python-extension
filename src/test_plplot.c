@@ -13,6 +13,11 @@
 //*****************************************************************************
 // 08 OCT 2021 TRAN MINH HAI
 // view port, window, box size, and page size
+// view pdf is better than open ps file directly
+// plspage interpretation depends on device drivers
+// convert ps to png using gs
+// gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r600 -sDEVICE=pngalpha -sOutputFile=foo.png myfile.eps
+//  convert -density 300  grid.ps -background white -alpha remove -alpha off grid.png
 //=============================================================================
 #include<stdio.h>
 #include<math.h>
@@ -67,13 +72,13 @@ static const PLINT ANNOTATION = 0;
 static const PLINT TOT_ROWS = 1;
 static const PLINT TIME_MULT = 1;
 
-static const PLINT BLOCK_SIZE_MM = 260;        // WIDTH AND HEIGHT OF A BLOCK
-static const PLFLT BOX_SIZE_MM = 13;           // WIDTH OF SQUARE BOX
-static const PLFLT DPI_VAL = 90.0;             // DPI FOR RESOULTION
+static const PLFLT DPI_VAL = 90;             // DPI FOR RESOULTION
+static const PLFLT BOX_SIZE_MM = 90.0/(2.54*2);           // WIDTH OF SQUARE BOX
+static const PLINT BLOCK_SIZE_MM = 20.0*90.0/(2.54*2);        // WIDTH AND HEIGHT OF A BLOCK
 static const PLFLT BLOCK_SIZE_MIN = 10;        // BLOCK SIZE IN MINUTE
 static const PLINT BLOCK_SIZE_SEC = 600;       // BLOCK SIZE IN SECOND
 static const PLFLT MAX_SIGLEN = 300000;        // MAX BLOCK SIZE IN SAMPLE
-static const PLINT HEIGHT_SEPARATION[5] = {2, 6, 3, 17, 2}; // IN BOX SIZE
+static const PLFLT HEIGHT_SEPARATION[5] = {2, 6, 3, 17, 2}; // IN BOX SIZE
 
 //==================================Data Type===================================
 // DOUBLE_VECTOR
@@ -639,34 +644,7 @@ baseline *p_fbase, double_vec *p_ua, const char *p_path)
 }
 
 // ============================= test plot a simple graph======================
-int testPlotSimpleGrap()
-{
-    // Set image name
-    plsfnam("./test.ps");
-    // Setup printer
-    plsdev("ps");
-    // Prepare data for plot
-    PLFLT x[NSIZE], y[NSIZE];
-    PLFLT xmin = 0., xmax = 1., ymin = 0., ymax = 100.;
-    int   i;
-    // Prepare data to be plotted.
-    for ( i = 0; i < NSIZE; i++ )
-    {
-        x[i] = (PLFLT) ( i ) / (PLFLT) ( NSIZE - 1 );
-        y[i] = ymax * x[i] * x[i];
-    }
-    // Initialize plplot
-    plinit();
-    // Create a labelled box to hold the plot.
-    plenv( xmin, xmax, ymin, ymax, 0, 0 );
-    pllab( "x", "y=100 x#u2#d", "Simple PLplot demo of a 2D line plot" );
-    // Plot the data that was prepared above.
-    plline( NSIZE, x, y );
-    // Close PLplot library
-    plend();
-    // Exit
-    exit( 0 );
-}
+
 
 // ============================== test plot CTG paper grid=====================
 int testPlotCtgPaper()
@@ -807,69 +785,72 @@ int testPlotCtgPaper()
 }
 
 // ==============================test plot a grid==============================
-int testPlotGrid(){
-    // SIGLEN IN TERM OF NUMBER OF SAMPLE EACH 250ms
-    int trace_speed = 1;
-    unsigned int siglen = 2400*3;
-    // SETUP DEVICE OUTPUT
-    plsdev("psc");
+int testPlotSimpleGrap()
+{
+    // Set image name
     plsfnam("./grid.ps");
-    // SETUP PARAMETER FOR PPLOT
-    int num_time_blk = 0;
-    int paper_len = 0;
-    int paper_height = 0;
-    int row_length = 0;
-    int sample_blk = 0;
-    // NUMBER OF SAMPLE PER BLOCK OF 10 MINUTES
-    sample_blk = SAMPLE_RATE * BLOCK_SIZE_SEC;
-    //  NUMBER OF BLOCK EACH 10 MINUTES
-    num_time_blk = ceil(siglen / sample_blk);
-    // NUMBER OF ROW DEFAULT 1
-    paper_len    = BLOCK_SIZE_MM * num_time_blk * trace_speed;
-    paper_height = BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[2] + HEIGHT_SEPARATION[3] + HEIGHT_SEPARATION[4]);
-    // DEFINE VIEWPORT FOR FHR AND MHR
-    PLFLT xminv1 =  (4.0 * BOX_SIZE_MM) / paper_len;
-    PLFLT xmaxv1 = 1.0 - (4.0 * BOX_SIZE_MM) / paper_len;
-    PLFLT yminv1 = (1.0 * BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[2])) / paper_height;
-    PLFLT ymaxv1 = (1.0 * BOX_SIZE_MM * (HEIGHT_SEPARATION[0] + HEIGHT_SEPARATION[1] + HEIGHT_SEPARATION[2] + HEIGHT_SEPARATION[3]))/ paper_height;
-    // SET COLOR
-    plscol0(0, 255, 255, 255); /* White, color 0, background */
-    plscol0(15, 0, 0, 0);      /* Black, color 15 */
-    // SET PAGE
-    plspage(DPI_VAL, DPI_VAL, paper_height, paper_len, 0, 0);
-    // INIT PLPLOT
+    // Setup printer
+    plsdev("ps");
+    // Prepare data for plot
+    PLFLT x[NSIZE], y[NSIZE];
+    PLFLT xmin = 0., xmax = 1., ymin = 0., ymax = 100.;
+    int   i;
+    // Prepare data to be plotted.
+    for ( i = 0; i < NSIZE; i++ )
+    {
+        x[i] = (PLFLT) ( i ) / (PLFLT) ( NSIZE - 1 );
+        y[i] = ymax * x[i] * x[i];
+    }
+    // Initialize plplot
     plinit();
-    pladv(0); //Advance the (sub-)page
-    // AXIS LIMIT OR RANGE
-    PLFLT xmin_fhr = 0.0;               // TIME MIN
-    PLFLT xmax_fhr = num_time_blk * 10.0 * 60.0;      // TIME MAX
-    PLFLT ymin_fhr = 50.0;              // HEART RATE MIN
-    PLFLT ymax_fhr = 220.0;             // HEART RATE MAX
-    //
-    plwidth(1);
-    // DEFINE VIEWPORT FOR FHR AND MHR
-    plvpas(xminv1, xmaxv1, yminv1, ymaxv1, 0.00);
-    // DEFINE WINDOW FOR FHR AND MHR
-    plwind(xmin_fhr, xmax_fhr, ymin_fhr, ymax_fhr);
-    //SET CHARACTER SIZE
-//    plschr(3.0, 1.0);
-    // SET COLOR
-//    plcol0(15);
-    // TIME FORMAT
-    pltimefmt("%H:%M");
-    // SET CORLOR
-    plcol0(15);
-    plschr(3.0, 1.0);
-    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * trace_speed , "ghbc", 20, 2); //180 1
-    // End plotting
+    // Create a labelled box to hold the plot.
+    plenv( xmin, xmax, ymin, ymax, 0, 0 );
+    pllab( "x", "y=100 x#u2#d", "Simple PLplot demo of a 2D line plot" );
+    // Plot the data that was prepared above.
+    plline( NSIZE, x, y );
+    // Close PLplot library
     plend();
     // Exit
-    exit(0);
+    exit( 0 );
+}
+// =====================================test plot simple grid==================
+int testPlotGrid(){
+    // Set image name
+    plsfnam("./grid.ps");
+    // Setup printer
+    plsdev("ps");
+    // Prepare data for plot
+    PLFLT x[NSIZE], y[NSIZE];
+    PLFLT xmin = 0., xmax = 1., ymin = 0., ymax = 100.;
+    int   i;
+    // Prepare data to be plotted.
+    for ( i = 0; i < NSIZE; i++ )
+    {
+        x[i] = (PLFLT) ( i ) / (PLFLT) ( NSIZE - 1 );
+        y[i] = ymax * x[i] * x[i];
+    }
+    // Initialize plplot
+    plinit();
+    pladv(0);
+    // setup view port absolute mm
+    plsvpa(10,100,10,100);
+    // setup view port aspect ratio
+    // setup window
+    plwind(0.0,1.0,0.0,100.0);
+    // setup both view port and window using plenv
+    // plenv( xmin, xmax, ymin, ymax, 0, 0 );
+    pllab( "x", "y=100 x#u2#d", "Simple PLplot demo of a 2D line plot" );
+    // Plot the data that was prepared above.
+    plline( NSIZE, x, y );
+    // Close PLplot library
+    plend();
+    // Exit
+    exit( 0 );
 }
 // ===================================== main =================================
 int main(){
-//    testPlotSimpleGrap();
+    testPlotSimpleGrap();
 //    testPlotCtgPaper();
-    testPlotGrid();
+//    testPlotGrid();
     exit(0);
 }
