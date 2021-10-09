@@ -83,12 +83,15 @@ int test_plot_simple_grid(){
     // set output
     plsfnam("./grid.ps");
     // set printer or device
-    plsdev("ps");
+    plsdev("psc");
     // set pen width
     plwidth(1.0);
     // set page 100 dpi, width 1000 pixel and height 500 pixel, 0 offset
     // device dependent raster
     plspage(DPI,DPI,ctg_paper_height_in_pixel,ctg_paper_width_in_pixel,0,0);
+    // set color
+    plscol0(0, 255, 255, 255); /* White, color 0, background */
+    plscol0(15, 0, 0, 0);      /* Black, color 15 */
     // initialise plot
     plinit();
     // set color
@@ -114,9 +117,31 @@ int test_plot_simple_grid(){
     // set color
     plcol0(15);
     // set characters
-    plschr(3.0, 1.0);
+    plschr(2.0, 1.0);
     // box and grid system
     plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2);
+    // width of y-stick
+    PLFLT pltexw = 10*60/20.0;
+    // add heart rate mark ytick
+    for (int i=0; i < num_ten_min_block; i++){
+         // x offset in second
+        int x_offset_block_in_second = i * 10 * 60;
+        // set background color for marker
+        plcol0(7);
+        PLFLT lab_px[] = {x_offset_block_in_second,x_offset_block_in_second,x_offset_block_in_second+pltexw,x_offset_block_in_second+pltexw};
+        PLFLT lab_py[] = {31,299,299,31};
+        plfill(4,lab_px,lab_py);
+        //
+        plcol0(15);
+        plptex(x_offset_block_in_second,60,0,0,0,"60");
+        plptex(x_offset_block_in_second,90,0,0,0,"90");
+        plptex(x_offset_block_in_second,120,0,0,0,"120");
+        plptex(x_offset_block_in_second,150,0,0,0,"150");
+        plptex(x_offset_block_in_second,180,0,0,0,"180");
+        plptex(x_offset_block_in_second,210,0,0,0,"210");
+        plptex(x_offset_block_in_second,240,0,0,0,"240");
+        plptex(x_offset_block_in_second,270,0,0,0,"270");
+    }
     // setup viewport for ua
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
@@ -126,12 +151,26 @@ int test_plot_simple_grid(){
     // setup window for ua
     plwind(0.0,num_min*60.0,0.0,100.0);
     pltimefmt("%H:%M");
-    // set color
-    plcol0(15);
     // set characters
-    plschr(3.0, 1.0);
+    plschr(2.0, 1.0);
     // box and grid system
     plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2);
+    // add heart rate mark ytick
+    for (int i=0; i < num_ten_min_block; i++){
+        // x offset in second
+        int x_offset_block_in_second = i * 10 * 60;
+        // set background color for marker
+        plcol0(7);
+        PLFLT lab_px[] = {x_offset_block_in_second,x_offset_block_in_second,x_offset_block_in_second+pltexw,x_offset_block_in_second+pltexw};
+        PLFLT lab_py[] = {1,99,99,1};
+        plfill(4,lab_px,lab_py);
+        // set color for text black
+        plcol0(15);
+        plptex(x_offset_block_in_second,20,0,0,0,"20");
+        plptex(x_offset_block_in_second,40,0,0,0,"40");
+        plptex(x_offset_block_in_second,60,0,0,0,"60");
+        plptex(x_offset_block_in_second,80,0,0,0,"80");
+    }
     // end plot
     plend();
     // exit
