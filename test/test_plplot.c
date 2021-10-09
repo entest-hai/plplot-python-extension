@@ -64,8 +64,8 @@ int test_plot_simple_grid(){
     int num_ten_min_block = 2;
     // total number of minute
     int num_min = num_ten_min_block * 10;
-    // dpi
-    int DPI = 80;
+    // dpi device dependent
+    int DPI = 60;
     // margin of ctg paper in minute
     int ctg_paper_left_margin_in_minute = 2;
     int ctg_paper_top_margin_in_minute = 2;
@@ -85,6 +85,7 @@ int test_plot_simple_grid(){
     // set pen width
     plwidth(1.0);
     // set page 100 dpi, width 1000 pixel and height 500 pixel, 0 offset
+    // device dependent raster
     plspage(DPI,DPI,ctg_paper_height_in_pixel,ctg_paper_width_in_pixel,0,0);
     // initialise plot
     plinit();
