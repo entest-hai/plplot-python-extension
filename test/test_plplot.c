@@ -98,30 +98,38 @@ int test_plot_simple_grid(){
     plcol0(15);
     // set subpages
     pladv(0);
-    // set view port using coordinate and aspect ration
-    PLFLT xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
+    // setup view port for upper title and padding
+    PLFLT xmin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_width_in_minute;
     PLFLT xmax = 1.0 - xmin;
-    PLFLT ymin = 1.0*(2.0*ctg_paper_top_margin_in_minute + ua_height_in_minute)/ctg_paper_height_in_minute;
-    PLFLT ymax = 1.0 - ctg_paper_top_margin_in_minute/ctg_paper_height_in_minute;
+    PLFLT ymin = 1.0*(ua_height_in_minute+fhr_height_in_minute+2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    PLFLT ymax = 1.0;
     plvpas(xmin,xmax,ymin,ymax,0.0);
-//     set view port absolute coordinate in mm
-//    PLFLT xmin = 10;
-//    PLFLT xmax = xmin + num_min*10.0;
-//    PLFLT ymin = 10;
-//    PLFLT ymax = ymin + ctg_paper_height_in_minute*10;
-//    plsvpa(xmin,xmax,ymin,ymax);
-    // setup window
-    plwind(0.0,num_min*60.0,30.0,300.0);
+    // setup window for upper title and padding
+    plwind(0.0,num_min*1.0,0.0,100.0);
+    // set color
+    plcol0(7);
+    PLFLT lab_px[] = {0,0,num_min*60,num_min*60};
+    PLFLT lab_py[] = {20,100,100,20};
+    plfill(4,lab_px,lab_py);
+    // set view port aspect ratio for heart rate
+    xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
+    xmax = 1.0 - xmin;
+    ymin = 1.0*(ua_height_in_minute + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymax = 1.0*(ua_height_in_minute + fhr_height_in_minute + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    //setup viewport for heart rate
+    plvpas(xmin,xmax,ymin,ymax,0.0);
+    // setup window for heart rate
+    plwind(0.0,num_min*60.0,40.0,240.0);
     // time format
     pltimefmt("%H:%M");
     // set color
     plcol0(15);
     // set characters
     plschr(2.0, 1.0);
-    // box and grid system
+    // box and grid system heart rate range [40, 240] means 200bpm = 20boxes * 10bpm/box
     plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2);
     // width of y-stick
-    PLFLT pltexw = 10*60/20.0;
+    PLFLT pltexw = 1.5*10*60/20.0;
     // add heart rate mark ytick
     for (int i=0; i < num_ten_min_block; i++){
          // x offset in second
@@ -145,7 +153,7 @@ int test_plot_simple_grid(){
     // setup viewport for ua
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
-    ymin = 1.0*(ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_height_in_minute;
     ymax = 1.0*(ctg_paper_top_margin_in_minute + ua_height_in_minute)/ctg_paper_height_in_minute;
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for ua
