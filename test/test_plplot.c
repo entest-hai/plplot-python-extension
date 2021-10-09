@@ -61,7 +61,7 @@ int hello_plplot()
 // ================================create a simple grid =======================
 int test_plot_simple_grid(){
     // simple data length number of the ten minute block
-    int num_ten_min_block = 4;
+    int num_ten_min_block = 6;
     // total number of minute
     int num_min = num_ten_min_block * 10;
     // dpi device dependent
@@ -70,7 +70,7 @@ int test_plot_simple_grid(){
     int ctg_paper_left_margin_in_minute = 2;
     int ctg_paper_top_margin_in_minute = 2;
     // height of fhr in minute
-    int fhr_height_in_minute = 10;
+    int fhr_height_in_minute = 13;
     // height of ua in minute
     int ua_height_in_minute = 5;
     // width of ctg paper in minute
@@ -106,11 +106,24 @@ int test_plot_simple_grid(){
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for upper title and padding
     plwind(0.0,num_min*1.0,0.0,100.0);
-    // set color
-    plcol0(7);
+    // set background color for title area
+    plcol0(3);
+    // add title mark area
     PLFLT lab_px[] = {0,0,num_min*60,num_min*60};
     PLFLT lab_py[] = {20,100,100,20};
     plfill(4,lab_px,lab_py);
+    // set color for title text
+    plcol0(15);
+    // set text font size
+    plschr(2.0, 1.0);
+    // set datetime format
+    pltimefmt("%H:%M");
+    // add title for ctg
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    char title_string[255];
+    sprintf(title_string, "BIORITHM CONNECT %d-%02d-%02d 00:00", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+    plptex(0,50,0,0,0,title_string);
     // set view port aspect ratio for heart rate
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
@@ -119,7 +132,7 @@ int test_plot_simple_grid(){
     //setup viewport for heart rate
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for heart rate
-    plwind(0.0,num_min*60.0,40.0,240.0);
+    plwind(0.0,num_min*60.0,30.0,290.0);
     // time format
     pltimefmt("%H:%M");
     // set color
@@ -127,7 +140,7 @@ int test_plot_simple_grid(){
     // set characters
     plschr(2.0, 1.0);
     // box and grid system heart rate range [40, 240] means 200bpm = 20boxes * 10bpm/box
-    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2);
+    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 10, 1);
     // width of y-stick
     PLFLT pltexw = 1.5*10*60/20.0;
     // add heart rate mark ytick
@@ -137,7 +150,7 @@ int test_plot_simple_grid(){
         // set background color for marker
         plcol0(7);
         PLFLT lab_px[] = {x_offset_block_in_second,x_offset_block_in_second,x_offset_block_in_second+pltexw,x_offset_block_in_second+pltexw};
-        PLFLT lab_py[] = {31,299,299,31};
+        PLFLT lab_py[] = {31,289,289,31};
         plfill(4,lab_px,lab_py);
         //
         plcol0(15);
