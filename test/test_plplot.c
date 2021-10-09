@@ -61,9 +61,23 @@ int hello_plplot()
 // ================================create a simple grid =======================
 int test_plot_simple_grid(){
     // simple data length number of the ten minute block
-    int num_ten_min_block = 6;
+    int num_ten_min_block = 2;
     // total number of minute
     int num_min = num_ten_min_block * 10;
+    // dpi
+    int DPI = 80;
+    // margin of ctg paper in minute
+    int ctg_paper_left_margin_in_minute = 2;
+    int ctg_paper_top_margin_in_minute = 2;
+    // height of fhr in minute
+    int fhr_height_in_minute = 10;
+    // width of ctg paper in minute
+    int ctg_paper_width_in_minute = num_min + 2*ctg_paper_left_margin_in_minute;
+    // height of ctg paper in minute
+    int ctg_paper_height_in_minute = fhr_height_in_minute + 2*ctg_paper_top_margin_in_minute;
+    // width of ctg paper in pixel given DPI
+    PLINT ctg_paper_width_in_pixel = (PLINT)DPI/2.54*ctg_paper_width_in_minute;
+    PLINT ctg_paper_height_in_pixel = (PLINT)DPI/2.54*ctg_paper_height_in_minute;
     // set output
     plsfnam("./grid.ps");
     // set printer or device
@@ -71,15 +85,25 @@ int test_plot_simple_grid(){
     // set pen width
     plwidth(1.0);
     // set page 100 dpi, width 1000 pixel and height 500 pixel, 0 offset
-    plspage(100,100,10*39,num_min*39,0,0);
+    plspage(DPI,DPI,ctg_paper_height_in_pixel,ctg_paper_width_in_pixel,0,0);
     // initialise plot
     plinit();
     // set color
     plcol0(15);
     // set subpages
     pladv(0);
-    // setup view port absolute or view port with aspect ratio
-    plsvpa(10,100,10,100);
+    // set view port using coordinate and aspect ration
+    PLFLT xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
+    PLFLT xmax = 1.0 - xmin;
+    PLFLT ymin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_height_in_minute;
+    PLFLT ymax = 1.0 - ymin;
+    plvpas(xmin,xmax,ymin,ymax,0.0);
+//     set view port absolute coordinate in mm
+//    PLFLT xmin = 10;
+//    PLFLT xmax = xmin + num_min*10.0;
+//    PLFLT ymin = 10;
+//    PLFLT ymax = ymin + ctg_paper_height_in_minute*10;
+//    plsvpa(xmin,xmax,ymin,ymax);
     // setup window
     plwind(0.0,num_min*60.0,30.0,300.0);
     // time format
