@@ -66,9 +66,12 @@ int test_plot_simple_grid(){
     int num_min = num_ten_min_block * 10;
     // dpi device dependent
     int DPI = 60;
-    // margin of ctg paper in minute
+    // left and right margin of ctg paper in minute
     int ctg_paper_left_margin_in_minute = 2;
+    // top and bottom margin of ctg paper in minute
     int ctg_paper_top_margin_in_minute = 2;
+    // acc table height in minute
+    int acc_table_height_in_minute = 13;
     // height of fhr in minute
     int fhr_height_in_minute = 13;
     // height of ua in minute
@@ -76,7 +79,7 @@ int test_plot_simple_grid(){
     // width of ctg paper in minute
     int ctg_paper_width_in_minute = num_min + 2*ctg_paper_left_margin_in_minute;
     // height of ctg paper in minute
-    int ctg_paper_height_in_minute = fhr_height_in_minute + 3*ctg_paper_top_margin_in_minute + ua_height_in_minute;
+    int ctg_paper_height_in_minute = fhr_height_in_minute + 4*ctg_paper_top_margin_in_minute + ua_height_in_minute + acc_table_height_in_minute;
     // width of ctg paper in pixel given DPI
     PLINT ctg_paper_width_in_pixel = (PLINT)DPI/2.54*ctg_paper_width_in_minute;
     PLINT ctg_paper_height_in_pixel = (PLINT)DPI/2.54*ctg_paper_height_in_minute;
@@ -101,14 +104,14 @@ int test_plot_simple_grid(){
     // setup view port for upper title and padding
     PLFLT xmin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_width_in_minute;
     PLFLT xmax = 1.0 - xmin;
-    PLFLT ymin = 1.0*(ua_height_in_minute+fhr_height_in_minute+2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    PLFLT ymin = 1.0*(acc_table_height_in_minute+ua_height_in_minute+fhr_height_in_minute+3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
     PLFLT ymax = 1.0;
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for upper title and padding
     plwind(0.0,num_min*1.0,0.0,100.0);
     // set background color for title area
     plcol0(3);
-    // add title mark area
+    // fill background color for title area
     PLFLT lab_px[] = {0,0,num_min*60,num_min*60};
     PLFLT lab_py[] = {20,100,100,20};
     plfill(4,lab_px,lab_py);
@@ -127,8 +130,8 @@ int test_plot_simple_grid(){
     // set view port aspect ratio for heart rate
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
-    ymin = 1.0*(ua_height_in_minute + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    ymax = 1.0*(ua_height_in_minute + fhr_height_in_minute + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymin = 1.0*(acc_table_height_in_minute + ua_height_in_minute + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymax = 1.0*(acc_table_height_in_minute + ua_height_in_minute + fhr_height_in_minute + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
     //setup viewport for heart rate
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for heart rate
@@ -166,8 +169,8 @@ int test_plot_simple_grid(){
     // setup viewport for ua
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
-    ymin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_height_in_minute;
-    ymax = 1.0*(ctg_paper_top_margin_in_minute + ua_height_in_minute)/ctg_paper_height_in_minute;
+    ymin = 1.0*(acc_table_height_in_minute + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymax = 1.0*(acc_table_height_in_minute + ua_height_in_minute  + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for ua
     plwind(0.0,num_min*60.0,0.0,100.0);
@@ -192,6 +195,24 @@ int test_plot_simple_grid(){
         plptex(x_offset_block_in_second,60,0,0,0,"60");
         plptex(x_offset_block_in_second,80,0,0,0,"80");
     }
+    // setup view port for acc table
+    xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
+    xmax = 1.0 - xmin;
+    ymin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_height_in_minute;
+    ymax = 1.0*(acc_table_height_in_minute + ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    plvpas(xmin,xmax,ymin,ymax,0.0);
+    // setup window acc table
+    plwind(0.0,num_min*60.0,0.0,100.0);
+    // set background color
+    plcol0(7);
+    // plot acc table
+    PLFLT lab_px_acc_table[] = {0,0,num_min*60,num_min*60};
+    PLFLT lab_py_acc_table[] = {1,99,99,1};
+    plfill(4,lab_px_acc_table,lab_py_acc_table);
+    // add content for acc table
+    plcol0(15);
+    plschr(3.0, 1.0);
+    plptex(0,95,0,0,0,"ACC TABLE");
     // end plot
     plend();
     // exit
