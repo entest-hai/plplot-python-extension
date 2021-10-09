@@ -1,6 +1,6 @@
 # python-extension-ctypes
 wrap some c functions which using plplot to draw things, then can be called as python code. 
-### Plplot
+### Install plplot
 - download plplot from here: http://plplot.sourceforge.net/downloads.php 
 - mkdir build_dir then cd build_dir, cmake .., then sudo make and sudo make install 
 - check ls /usr/local/lib/ and /usr/local/include/ 
