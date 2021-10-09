@@ -61,7 +61,7 @@ int hello_plplot()
 // ================================create a simple grid =======================
 int test_plot_simple_grid(){
     // simple data length number of the ten minute block
-    int num_ten_min_block = 2;
+    int num_ten_min_block = 4;
     // total number of minute
     int num_min = num_ten_min_block * 10;
     // dpi device dependent
@@ -71,10 +71,12 @@ int test_plot_simple_grid(){
     int ctg_paper_top_margin_in_minute = 2;
     // height of fhr in minute
     int fhr_height_in_minute = 10;
+    // height of ua in minute
+    int ua_height_in_minute = 5;
     // width of ctg paper in minute
     int ctg_paper_width_in_minute = num_min + 2*ctg_paper_left_margin_in_minute;
     // height of ctg paper in minute
-    int ctg_paper_height_in_minute = fhr_height_in_minute + 2*ctg_paper_top_margin_in_minute;
+    int ctg_paper_height_in_minute = fhr_height_in_minute + 3*ctg_paper_top_margin_in_minute + ua_height_in_minute;
     // width of ctg paper in pixel given DPI
     PLINT ctg_paper_width_in_pixel = (PLINT)DPI/2.54*ctg_paper_width_in_minute;
     PLINT ctg_paper_height_in_pixel = (PLINT)DPI/2.54*ctg_paper_height_in_minute;
@@ -96,8 +98,8 @@ int test_plot_simple_grid(){
     // set view port using coordinate and aspect ration
     PLFLT xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     PLFLT xmax = 1.0 - xmin;
-    PLFLT ymin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_height_in_minute;
-    PLFLT ymax = 1.0 - ymin;
+    PLFLT ymin = 1.0*(2.0*ctg_paper_top_margin_in_minute + ua_height_in_minute)/ctg_paper_height_in_minute;
+    PLFLT ymax = 1.0 - ctg_paper_top_margin_in_minute/ctg_paper_height_in_minute;
     plvpas(xmin,xmax,ymin,ymax,0.0);
 //     set view port absolute coordinate in mm
 //    PLFLT xmin = 10;
@@ -114,7 +116,22 @@ int test_plot_simple_grid(){
     // set characters
     plschr(3.0, 1.0);
     // box and grid system
-    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2); //180 1
+    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2);
+    // setup viewport for ua
+    xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
+    xmax = 1.0 - xmin;
+    ymin = 1.0*(ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymax = 1.0*(ctg_paper_top_margin_in_minute + ua_height_in_minute)/ctg_paper_height_in_minute;
+    plvpas(xmin,xmax,ymin,ymax,0.0);
+    // setup window for ua
+    plwind(0.0,num_min*60.0,0.0,100.0);
+    pltimefmt("%H:%M");
+    // set color
+    plcol0(15);
+    // set characters
+    plschr(3.0, 1.0);
+    // box and grid system
+    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2);
     // end plot
     plend();
     // exit
