@@ -33,7 +33,7 @@
 //gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r200 -sDEVICE=png16m -sOutputFile=grid.png grid.ps
 //gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=pdfwrite -g5775x6207 -dPDFFitPage -o grid.pdf grid.ps
 //gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=pdfwrite -dPDFFitPage -o grid.pdf grid.ps
-// TODO: break pages and pares input
+// TODO: break pages and pares input, plot heart rate, mark acels, decels, and acc table data
 // ============================================================================
 #include<stdio.h>
 #include<math.h>
