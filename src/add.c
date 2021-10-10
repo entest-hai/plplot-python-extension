@@ -1,11 +1,14 @@
-// 29 SEP 2021 Hai Tran 
+// ============================================================================
+// Author: Hai Tran
+// Date: 29 SEP 2021
+// Purpose: create a simple so lib and extension python using ctypes which can
+// be called from python
 // gcc -shared -o libtest.so -fPIC add.c
 // gcc -o app test.c
 // 30 SEP 2021 Hai Tran
 // add plplot
-//gcc -o app add.c -I /usr/local/include/plplot/
-
-
+// gcc -o app add.c -I /usr/local/include/plplot/
+// ============================================================================
 #include<stdio.h>
 #include<math.h>
 #include<string.h>
