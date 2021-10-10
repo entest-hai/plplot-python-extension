@@ -33,6 +33,7 @@
 //gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r200 -sDEVICE=png16m -sOutputFile=grid.png grid.ps
 //gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=pdfwrite -g5775x6207 -dPDFFitPage -o grid.pdf grid.ps
 //gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=pdfwrite -dPDFFitPage -o grid.pdf grid.ps
+// TODO: break pages and pares input
 // ============================================================================
 #include<stdio.h>
 #include<math.h>
@@ -40,9 +41,8 @@
 #include<time.h>
 #include<plConfig.h>
 #include"plcdemos.h"
-// CONST
-static const PLINT BLOCK_SIZE_SEC = 600;       // BLOCK SIZE IN SECOND
-static const int NSIZE = 101;                  // DATA LENGTH FOR SIMPLE PLOT
+// the ten minute block length in number of second
+static const PLINT BLOCK_SIZE_SEC = 600;
 // plot ctg grid using plplot
 int plot_ctg_paper(){
     // simple data length number of the ten minute block
@@ -64,7 +64,10 @@ int plot_ctg_paper(){
     // width of ctg paper in minute
     int ctg_paper_width_in_minute = num_min + 2*ctg_paper_left_margin_in_minute;
     // height of ctg paper in minute
-    int ctg_paper_height_in_minute = fhr_height_in_minute + 4*ctg_paper_top_margin_in_minute + ua_height_in_minute + acc_table_height_in_minute;
+    int ctg_paper_height_in_minute = fhr_height_in_minute
+                                    + 4*ctg_paper_top_margin_in_minute
+                                    + ua_height_in_minute
+                                    + acc_table_height_in_minute;
     // width of ctg paper in pixel given DPI
     PLINT ctg_paper_width_in_pixel = (PLINT)DPI/2.54*ctg_paper_width_in_minute;
     PLINT ctg_paper_height_in_pixel = (PLINT)DPI/2.54*ctg_paper_height_in_minute;
@@ -89,7 +92,9 @@ int plot_ctg_paper(){
     // setup view port for upper title and padding
     PLFLT xmin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_width_in_minute;
     PLFLT xmax = 1.0 - xmin;
-    PLFLT ymin = 1.0*(acc_table_height_in_minute+ua_height_in_minute+fhr_height_in_minute+3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    PLFLT ymin = 1.0*(acc_table_height_in_minute+ua_height_in_minute
+                     + fhr_height_in_minute
+                     + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
     PLFLT ymax = 1.0;
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for upper title and padding
@@ -115,8 +120,13 @@ int plot_ctg_paper(){
     // set view port aspect ratio for heart rate
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
-    ymin = 1.0*(acc_table_height_in_minute + ua_height_in_minute + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    ymax = 1.0*(acc_table_height_in_minute + ua_height_in_minute + fhr_height_in_minute + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymin = 1.0*(acc_table_height_in_minute
+                + ua_height_in_minute
+                + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymax = 1.0*(acc_table_height_in_minute
+                + ua_height_in_minute
+                + fhr_height_in_minute
+                + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
     //setup viewport for heart rate
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for heart rate
@@ -137,7 +147,10 @@ int plot_ctg_paper(){
         int x_offset_block_in_second = i * 10 * 60;
         // set background color for marker
         plcol0(7);
-        PLFLT lab_px[] = {x_offset_block_in_second,x_offset_block_in_second,x_offset_block_in_second+pltexw,x_offset_block_in_second+pltexw};
+        PLFLT lab_px[] = {x_offset_block_in_second,
+                          x_offset_block_in_second,
+                          x_offset_block_in_second+pltexw,
+                          x_offset_block_in_second+pltexw};
         PLFLT lab_py[] = {31,289,289,31};
         plfill(4,lab_px,lab_py);
         //
@@ -154,8 +167,11 @@ int plot_ctg_paper(){
     // setup viewport for ua
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
-    ymin = 1.0*(acc_table_height_in_minute + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    ymax = 1.0*(acc_table_height_in_minute + ua_height_in_minute  + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymin = 1.0*(acc_table_height_in_minute
+                + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
+    ymax = 1.0*(acc_table_height_in_minute
+                + ua_height_in_minute
+                + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for ua
     plwind(0.0,num_min*60.0,0.0,100.0);
@@ -170,7 +186,10 @@ int plot_ctg_paper(){
         int x_offset_block_in_second = i * 10 * 60;
         // set background color for marker
         plcol0(7);
-        PLFLT lab_px[] = {x_offset_block_in_second,x_offset_block_in_second,x_offset_block_in_second+pltexw,x_offset_block_in_second+pltexw};
+        PLFLT lab_px[] = {x_offset_block_in_second,
+                            x_offset_block_in_second,
+                            x_offset_block_in_second+pltexw,
+                            x_offset_block_in_second+pltexw};
         PLFLT lab_py[] = {1,99,99,1};
         plfill(4,lab_px,lab_py);
         // set color for text black
