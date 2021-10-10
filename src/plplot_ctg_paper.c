@@ -43,9 +43,8 @@
 // CONST
 static const PLINT BLOCK_SIZE_SEC = 600;       // BLOCK SIZE IN SECOND
 static const int NSIZE = 101;                  // DATA LENGTH FOR SIMPLE PLOT
-
 // plot ctg grid using plplot
-int test_plot_simple_grid(){
+int plot_ctg_paper(){
     // simple data length number of the ten minute block
     int num_ten_min_block = 6;
     // total number of minute
@@ -206,6 +205,6 @@ int test_plot_simple_grid(){
 }
 // ===================================== main =================================
 int main(){
-    test_plot_simple_grid();
+    plot_ctg_paper();
     exit(0);
 }
