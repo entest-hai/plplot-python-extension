@@ -6,19 +6,19 @@
 // Description:
 // Usage example:
 //*****************************************************************************
-// 30 SEP 2021 TRAN MINH HAI
+// 30 SEP 2021 Hai Tran
 // simple test plplot
 // build: gcc -o app plplot_ctg_paper.c -I /usr/local/include/ -I /usr/local/include/plplot/ -lm -lgsl -lgslcblas -lplplot
 //*****************************************************************************
-// 07 OCT 2021 TRAN MINH HAI
+// 07 OCT 2021 Hai Tran
 // next step plot CTG simple grid
 //*****************************************************************************
-// 07 OCT 2021 TRAN MINH HAI
+// 07 OCT 2021 Hai Tran
 // TO DO: check pltimefmt("%H:%M"); and format CTG paper, margin
 // First, check plbox and option x-axis show date time
 // Second, check pltimefmt
 //*****************************************************************************
-// 08 OCT 2021 TRAN MINH HAI
+// 08 OCT 2021 Hai Tran
 // convert ps to png with white background and high resolution
 // view port, window, box size, and page size
 // view pdf is better than open ps file directly
@@ -27,6 +27,12 @@
 // gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r600 -sDEVICE=png16m -sOutputFile=foo.png grid.ps
 // convert -density 300  grid.ps -background white -alpha remove -alpha off grid.png
 // gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=pdfwrite -dPDFFitPage -o grid.pdf grid.ps
+//*****************************************************************************
+// 10 OCT 2021 Hai Tran
+// convert to png and pdf
+//gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r200 -sDEVICE=png16m -sOutputFile=grid.png grid.ps
+//gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=pdfwrite -g5775x6207 -dPDFFitPage -o grid.pdf grid.ps
+//gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=pdfwrite -dPDFFitPage -o grid.pdf grid.ps
 // ============================================================================
 #include<stdio.h>
 #include<math.h>
