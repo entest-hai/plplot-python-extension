@@ -29,7 +29,7 @@
 // =================================CONST======================================
 static const PLINT BLOCK_SIZE_SEC = 600;       // BLOCK SIZE IN SECOND
 static const int NSIZE = 101;                  // DATA LENGTH FOR SIMPLE PLOT
-// ==============================test plot a grid==============================
+// hello plplot
 int hello_plplot()
 {
     // set output
@@ -58,168 +58,128 @@ int hello_plplot()
     // exit
     exit( 0 );
 }
-// ================================create a simple grid =======================
-int test_plot_simple_grid(){
-    // simple data length number of the ten minute block
-    int num_ten_min_block = 6;
-    // total number of minute
-    int num_min = num_ten_min_block * 10;
-    // dpi device dependent
-    int DPI = 60;
-    // left and right margin of ctg paper in minute
-    int ctg_paper_left_margin_in_minute = 2;
-    // top and bottom margin of ctg paper in minute
-    int ctg_paper_top_margin_in_minute = 2;
-    // acc table height in minute
-    int acc_table_height_in_minute = 13;
-    // height of fhr in minute
-    int fhr_height_in_minute = 13;
-    // height of ua in minute
-    int ua_height_in_minute = 5;
-    // width of ctg paper in minute
-    int ctg_paper_width_in_minute = num_min + 2*ctg_paper_left_margin_in_minute;
-    // height of ctg paper in minute
-    int ctg_paper_height_in_minute = fhr_height_in_minute + 4*ctg_paper_top_margin_in_minute + ua_height_in_minute + acc_table_height_in_minute;
-    // width of ctg paper in pixel given DPI
-    PLINT ctg_paper_width_in_pixel = (PLINT)DPI/2.54*ctg_paper_width_in_minute;
-    PLINT ctg_paper_height_in_pixel = (PLINT)DPI/2.54*ctg_paper_height_in_minute;
-    // set output
-    plsfnam("./grid.ps");
-    // set printer or device
-    plsdev("psc");
-    // set pen width
-    plwidth(1.0);
-    // set page 100 dpi, width 1000 pixel and height 500 pixel, 0 offset
-    // device dependent raster
-    plspage(DPI,DPI,ctg_paper_height_in_pixel,ctg_paper_width_in_pixel,0,0);
-    // set color
-    plscol0(0, 255, 255, 255); /* White, color 0, background */
-    plscol0(15, 0, 0, 0);      /* Black, color 15 */
-    // initialise plot
+
+// transparent background
+static PLINT  red[] = { 0, 255, 0, 0 };
+static PLINT  green[] = { 0, 0, 255, 0 };
+static PLINT  blue[] = { 0, 0, 0, 255 };
+static PLFLT  alpha[] = { 1.0, 1.0, 1.0, 1.0 };
+static PLFLT  px[] = { 0.1, 0.5, 0.5, 0.1 };
+static PLFLT  py[] = { 0.1, 0.1, 0.5, 0.5 };
+static PLFLT  pos[] = { 0.0, 1.0 };
+static PLFLT  rcoord[] = { 1.0, 1.0 };
+static PLFLT  gcoord[] = { 0.0, 0.0 };
+static PLFLT  bcoord[] = { 0.0, 0.0 };
+static PLFLT  acoord[] = { 0.0, 1.0 };
+static PLBOOL rev[] = { 0, 0 };
+
+int main(int argc, char *argv[] ){
+    int   i, j;
+    PLINT icol, r, g, b;
+    PLFLT a;
+
+    plparseopts( &argc, argv, PL_PARSE_FULL );
+
     plinit();
-    // set color
-    plcol0(15);
-    // set subpages
-    pladv(0);
-    // setup view port for upper title and padding
-    PLFLT xmin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_width_in_minute;
-    PLFLT xmax = 1.0 - xmin;
-    PLFLT ymin = 1.0*(acc_table_height_in_minute+ua_height_in_minute+fhr_height_in_minute+3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    PLFLT ymax = 1.0;
-    plvpas(xmin,xmax,ymin,ymax,0.0);
-    // setup window for upper title and padding
-    plwind(0.0,num_min*1.0,0.0,100.0);
-    // set background color for title area
-    plcol0(3);
-    // fill background color for title area
-    PLFLT lab_px[] = {0,0,num_min*60,num_min*60};
-    PLFLT lab_py[] = {20,100,100,20};
-    plfill(4,lab_px,lab_py);
-    // set color for title text
-    plcol0(15);
-    // set text font size
-    plschr(2.0, 1.0);
-    // set datetime format
-    pltimefmt("%H:%M");
-    // add title for ctg
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
-    char title_string[255];
-    sprintf(title_string, "BIORITHM CONNECT %d-%02d-%02d 00:00", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
-    plptex(0,50,0,0,0,title_string);
-    // set view port aspect ratio for heart rate
-    xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
-    xmax = 1.0 - xmin;
-    ymin = 1.0*(acc_table_height_in_minute + ua_height_in_minute + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    ymax = 1.0*(acc_table_height_in_minute + ua_height_in_minute + fhr_height_in_minute + 3*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    //setup viewport for heart rate
-    plvpas(xmin,xmax,ymin,ymax,0.0);
-    // setup window for heart rate
-    plwind(0.0,num_min*60.0,30.0,290.0);
-    // time format
-    pltimefmt("%H:%M");
-    // set color
-    plcol0(15);
-    // set characters
-    plschr(2.0, 1.0);
-    // box and grid system heart rate range [40, 240] means 200bpm = 20boxes * 10bpm/box
-    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 10, 1);
-    // width of y-stick
-    PLFLT pltexw = 1.5*10*60/20.0;
-    // add heart rate mark ytick
-    for (int i=0; i < num_ten_min_block; i++){
-         // x offset in second
-        int x_offset_block_in_second = i * 10 * 60;
-        // set background color for marker
-        plcol0(7);
-        PLFLT lab_px[] = {x_offset_block_in_second,x_offset_block_in_second,x_offset_block_in_second+pltexw,x_offset_block_in_second+pltexw};
-        PLFLT lab_py[] = {31,289,289,31};
-        plfill(4,lab_px,lab_py);
-        //
-        plcol0(15);
-        plptex(x_offset_block_in_second,60,0,0,0,"60");
-        plptex(x_offset_block_in_second,90,0,0,0,"90");
-        plptex(x_offset_block_in_second,120,0,0,0,"120");
-        plptex(x_offset_block_in_second,150,0,0,0,"150");
-        plptex(x_offset_block_in_second,180,0,0,0,"180");
-        plptex(x_offset_block_in_second,210,0,0,0,"210");
-        plptex(x_offset_block_in_second,240,0,0,0,"240");
-        plptex(x_offset_block_in_second,270,0,0,0,"270");
+    plscmap0n( 4 );
+    plscmap0a( red, green, blue, alpha, 4 );
+
+    //
+    // Page 1:
+    //
+    // This is a series of red, green and blue rectangles overlaid
+    // on each other with gradually increasing transparency.
+    //
+
+    // Set up the window
+    pladv( 0 );
+    plvpor( 0.0, 1.0, 0.0, 1.0 );
+    plwind( 0.0, 1.0, 0.0, 1.0 );
+    plcol0( 0 );
+    plbox( "", 1.0, 0, "", 1.0, 0 );
+
+    // Draw the boxes
+    for ( i = 0; i < 9; i++ )
+    {
+        icol = i % 3 + 1;
+
+        // Get a color, change its transparency and
+        // set it as the current color.
+        plgcol0a( icol, &r, &g, &b, &a );
+        plscol0a( icol, r, g, b, 1.0 - (PLFLT) i / 9.0 );
+        plcol0( icol );
+
+        // Draw the rectangle
+        plfill( 4, px, py );
+
+        // Shift the rectangles coordinates
+        for ( j = 0; j < 4; j++ )
+        {
+            px[j] += 0.5 / 9.0;
+            py[j] += 0.5 / 9.0;
+        }
     }
-    // setup viewport for ua
-    xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
-    xmax = 1.0 - xmin;
-    ymin = 1.0*(acc_table_height_in_minute + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    ymax = 1.0*(acc_table_height_in_minute + ua_height_in_minute  + 2*ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    plvpas(xmin,xmax,ymin,ymax,0.0);
-    // setup window for ua
-    plwind(0.0,num_min*60.0,0.0,100.0);
-    pltimefmt("%H:%M");
-    // set characters
-    plschr(2.0, 1.0);
-    // box and grid system
-    plbox("ghdnitbc", BLOCK_SIZE_SEC,  20 * 1 , "ghbc", 20, 2);
-    // add heart rate mark ytick
-    for (int i=0; i < num_ten_min_block; i++){
-        // x offset in second
-        int x_offset_block_in_second = i * 10 * 60;
-        // set background color for marker
-        plcol0(7);
-        PLFLT lab_px[] = {x_offset_block_in_second,x_offset_block_in_second,x_offset_block_in_second+pltexw,x_offset_block_in_second+pltexw};
-        PLFLT lab_py[] = {1,99,99,1};
-        plfill(4,lab_px,lab_py);
-        // set color for text black
-        plcol0(15);
-        plptex(x_offset_block_in_second,20,0,0,0,"20");
-        plptex(x_offset_block_in_second,40,0,0,0,"40");
-        plptex(x_offset_block_in_second,60,0,0,0,"60");
-        plptex(x_offset_block_in_second,80,0,0,0,"80");
+
+    //
+    // Page 2:
+    //
+    // This is a bunch of boxes colored red, green or blue with a single
+    // large (red) box of linearly varying transparency overlaid. The
+    // overlaid box is completely transparent at the bottom and completely
+    // opaque at the top.
+    //
+
+    // Set up the window
+    pladv( 0 );
+    plvpor( 0.1, 0.9, 0.1, 0.9 );
+    plwind( 0.0, 1.0, 0.0, 1.0 );
+
+    // Draw the boxes. There are 25 of them drawn on a 5 x 5 grid.
+    for ( i = 0; i < 5; i++ )
+    {
+        // Set box X position
+        px[0] = 0.05 + 0.2 * i;
+        px[1] = px[0] + 0.1;
+        px[2] = px[1];
+        px[3] = px[0];
+
+        // We don't want the boxes to be transparent, so since we changed
+        // the colors transparencies in the first example we have to change
+        // the transparencies back to completely opaque.
+        icol = i % 3 + 1;
+        plgcol0a( icol, &r, &g, &b, &a );
+        plscol0a( icol, r, g, b, 1.0 );
+        plcol0( icol );
+        for ( j = 0; j < 5; j++ )
+        {
+            // Set box y position and draw the box.
+            py[0] = 0.05 + 0.2 * j;
+            py[1] = py[0];
+            py[2] = py[0] + 0.1;
+            py[3] = py[2];
+            plfill( 4, px, py );
+        }
     }
-    // setup view port for acc table
-    xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
-    xmax = 1.0 - xmin;
-    ymin = 1.0*ctg_paper_top_margin_in_minute/ctg_paper_height_in_minute;
-    ymax = 1.0*(acc_table_height_in_minute + ctg_paper_top_margin_in_minute)/ctg_paper_height_in_minute;
-    plvpas(xmin,xmax,ymin,ymax,0.0);
-    // setup window acc table
-    plwind(0.0,num_min*60.0,0.0,100.0);
-    // set background color
-    plcol0(7);
-    // plot acc table
-    PLFLT lab_px_acc_table[] = {0,0,num_min*60,num_min*60};
-    PLFLT lab_py_acc_table[] = {1,99,99,1};
-    plfill(4,lab_px_acc_table,lab_py_acc_table);
-    // add content for acc table
-    plcol0(15);
-    plschr(3.0, 1.0);
-    plptex(0,95,0,0,0,"ACC TABLE");
-    // end plot
+
+    // Create the color map with 128 colors and use plscmap1la to initialize
+    // the color values with a linearly varying red transparency (or alpha)
+    plscmap1n( 128 );
+    plscmap1la( 1, 2, pos, rcoord, gcoord, bcoord, acoord, rev );
+
+    // Use that cmap1 to create a transparent red gradient for the whole
+    // window.
+    px[0] = 0.;
+    px[1] = 1.;
+    px[2] = 1.;
+    px[3] = 0.;
+
+    py[0] = 0.;
+    py[1] = 0.;
+    py[2] = 1.;
+    py[3] = 1.;
+
+    plgradient( 4, px, py, 90. );
+
     plend();
-    // exit
     exit( 0 );
-}
-// ===================================== main =================================
-int main(){
-    test_plot_simple_grid();
-    exit(0);
 }
