@@ -42,11 +42,12 @@
 #include<plConfig.h>
 #include"plcdemos.h"
 // the ten minute block length in number of second
+static const int SAMPLING_RATE = 4;
 static const PLINT BLOCK_SIZE_SEC = 600;
 // plot ctg grid using plplot
-int plot_ctg_paper(){
+int plot_ctg_paper(float *maternal_heartrate, float *fetal_heartrate, float *ua, int num_heartrate){
     // simple data length number of the ten minute block
-    int num_ten_min_block = 6;
+    int num_ten_min_block = num_heartrate / (10*60*SAMPLING_RATE) + 1;
     // total number of minute
     int num_min = num_ten_min_block * 10;
     // dpi device dependent
@@ -85,8 +86,6 @@ int plot_ctg_paper(){
     plscol0(15, 0, 0, 0);      /* Black, color 15 */
     // initialise plot
     plinit();
-    // set color
-    plcol0(15);
     // set subpages
     pladv(0);
     // setup view port for upper title and padding
@@ -115,7 +114,7 @@ int plot_ctg_paper(){
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     char title_string[255];
-    sprintf(title_string, "BIORITHM CONNECT %d-%02d-%02d 00:00", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+    sprintf(title_string, "CTG CONNECT %d-%02d-%02d 00:00", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
     plptex(0,50,0,0,0,title_string);
     // set view port aspect ratio for heart rate
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
@@ -164,6 +163,52 @@ int plot_ctg_paper(){
         plptex(x_offset_block_in_second,240,0,0,0,"240");
         plptex(x_offset_block_in_second,270,0,0,0,"270");
     }
+    //********************** mark fetal heart rate nomral region 100 to 160
+    // set up color map with transparent
+//    plscol0a(15, 10, 20, 30, 0.05);
+//    plcol0(3);
+//    PLFLT lab_px_fhr_nomral[] = {0,0,num_min*60,num_min*60};
+//    PLFLT lab_py_fhr_normal[] = {100,160,160,100};
+//    plfill(4,lab_px_fhr_nomral,lab_py_fhr_normal);
+    //**********************************************************************
+    // return color without transparent alpha
+    plscol0(15, 0, 0, 0);
+    // plot fetal heart rate here
+    // setup color for fetal heart rate line
+    plcol0(1);
+    // setup linewidth for fetal heart rate line
+    plwidth(1);
+    // setup line style for fetal heart rate line
+    pllsty(1);
+    // loop over all fetal heart rate point and point them
+    PLFLT lx[2],ly[2];
+    for(int i = 0; i < num_heartrate-1; i++){
+        // time in second given 4Hz sample heart rate
+        lx[0] = (1.0*i)/4.0;
+        // time in second given 4Hz sample heart rate
+        lx[1] = (1.0*(i+1))/4.0;
+        // heart rate point
+        ly[0] = fetal_heartrate[i];
+        // heart rate point
+        ly[1] = fetal_heartrate[i+1];
+        plpoin(2, lx, ly, 1);
+    }
+    // loop over all maternal heart rate and plot them
+    plcol0(9);
+    for (int i = 0; i < num_heartrate-1; i++){
+        // time in second given 4Hz sample heart rate
+        lx[0] = (1.0*i)/4.0;
+        // time in second given 4Hz sample heart rate
+        lx[1] = (1.0*(i+1))/4.0;
+        // heart rate point
+        ly[0] = maternal_heartrate[i];
+        // heart rate point
+        ly[1] = maternal_heartrate[i+1];
+        // plot line between two points
+        plpoin(2, lx, ly, 1);
+    }
+    //
+    plcol0(15);
     // setup viewport for ua
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
@@ -199,6 +244,27 @@ int plot_ctg_paper(){
         plptex(x_offset_block_in_second,60,0,0,0,"60");
         plptex(x_offset_block_in_second,80,0,0,0,"80");
     }
+    // plot ua signal here
+    // setup color for ua line
+    plcol0(10);
+    // setup linewidth for ua line
+    plwidth(1);
+    // setup line style for ua line
+    pllsty(1);
+    // loop over all fetal ua point and point them
+    for(int i = 0; i < num_heartrate-1; i++){
+        // time in second given 4Hz sample heart rate
+        lx[0] = (1.0*i)/4.0;
+        // time in second given 4Hz sample heart rate
+        lx[1] = (1.0*(i+1))/4.0;
+        // heart rate point
+        ly[0] = ua[i];
+        // heart rate point
+        ly[1] = ua[i+1];
+        plpoin(2, lx, ly, 1);
+    }
+    //
+    plcol0(15);
     // setup view port for acc table
     xmin = 1.0*ctg_paper_left_margin_in_minute/ctg_paper_width_in_minute;
     xmax = 1.0 - xmin;
@@ -224,6 +290,17 @@ int plot_ctg_paper(){
 }
 // ===================================== main =================================
 int main(){
-    plot_ctg_paper();
+    int num_heartrate = 45*60*4;
+    float maternal_heartrate[num_heartrate];
+    float fetal_heartrate[num_heartrate];
+    float ua[num_heartrate];
+    // create data
+    for (int i = 0; i < num_heartrate; i++){
+        maternal_heartrate[i] = 90.0 + 10.0*sin((2.0*3.14*i)/(20*60*4));
+        fetal_heartrate[i] = 150.0 + 15.0*sin((2.0*3.14*i)/(10*60*4));
+        ua[i] = 70.0;
+    }
+    // plot ctg
+    plot_ctg_paper(maternal_heartrate, fetal_heartrate, ua, num_heartrate);
     exit(0);
 }

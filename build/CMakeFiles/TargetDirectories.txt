@@ -1,3 +1,0 @@
-/home/haitran/c-workspace/ctypes/build/CMakeFiles/rebuild_cache.dir
-/home/haitran/c-workspace/ctypes/build/CMakeFiles/test.dir
-/home/haitran/c-workspace/ctypes/build/CMakeFiles/edit_cache.dir
