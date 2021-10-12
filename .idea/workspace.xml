@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eef9e785-d25f-4b53-bcaf-8009af44a80e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/plplot_ctg_paper.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/plplot_ctg_paper.c" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="762d92fa-681d-4b99-aced-3045e4aaf00b" />
+  <component name="ProjectId" id="1yr3FcvhfcAwDAtxjHs8KABmVl2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eef9e785-d25f-4b53-bcaf-8009af44a80e" name="Default Changelist" comment="" />
+      <created>1632995776830</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1632995776830</updated>
+      <workItem from="1632995777905" duration="2737000" />
+      <workItem from="1633085476735" duration="43000" />
+      <workItem from="1633602579373" duration="2932000" />
+      <workItem from="1633622169718" duration="38822000" />
+      <workItem from="1633757678854" duration="768000" />
+      <workItem from="1633760805618" duration="8105000" />
+      <workItem from="1633856603993" duration="2084000" />
+      <workItem from="1633915878715" duration="18000" />
+      <workItem from="1633941362870" duration="2104000" />
+      <workItem from="1633943652616" duration="5265000" />
+      <workItem from="1634004550024" duration="100000" />
+      <workItem from="1634014638775" duration="5166000" />
+      <workItem from="1634031340098" duration="423000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="714" y="344" width="481" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1632995785011">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="714" y="344" width="481" height="390" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1632995785011" />
+    <state x="271" y="298" width="424" height="484" key="FileChooserDialogImpl" timestamp="1634004644433">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="271" y="298" width="424" height="484" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1634004644433" />
+    <state x="464" y="174" key="SettingsEditor" timestamp="1633857641913">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="464" y="174" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1633857641913" />
+    <state x="151" y="239" width="672" height="678" key="search.everywhere.popup" timestamp="1632995998441">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="151" y="239" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1632995998441" />
+  </component>
+</project>

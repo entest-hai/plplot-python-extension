@@ -57,9 +57,9 @@ int plot_ctg_paper(float *maternal_heartrate, float *fetal_heartrate, float *ua,
     // top and bottom margin of ctg paper in minute
     int ctg_paper_top_margin_in_minute = 2;
     // acc table height in minute
-    int acc_table_height_in_minute = 13;
+    int acc_table_height_in_minute = 10;
     // height of fhr in minute
-    int fhr_height_in_minute = 13;
+    int fhr_height_in_minute = 10;
     // height of ua in minute
     int ua_height_in_minute = 5;
     // width of ctg paper in minute
@@ -129,7 +129,7 @@ int plot_ctg_paper(float *maternal_heartrate, float *fetal_heartrate, float *ua,
     //setup viewport for heart rate
     plvpas(xmin,xmax,ymin,ymax,0.0);
     // setup window for heart rate
-    plwind(0.0,num_min*60.0,30.0,290.0);
+    plwind(0.0,num_min*60.0,50.0,250.0);
     // time format
     pltimefmt("%H:%M");
     // set color
@@ -161,7 +161,7 @@ int plot_ctg_paper(float *maternal_heartrate, float *fetal_heartrate, float *ua,
         plptex(x_offset_block_in_second,180,0,0,0,"180");
         plptex(x_offset_block_in_second,210,0,0,0,"210");
         plptex(x_offset_block_in_second,240,0,0,0,"240");
-        plptex(x_offset_block_in_second,270,0,0,0,"270");
+//        plptex(x_offset_block_in_second,270,0,0,0,"270");
     }
     //********************** mark fetal heart rate nomral region 100 to 160
     // set up color map with transparent
