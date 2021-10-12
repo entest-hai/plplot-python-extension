@@ -20,4 +20,9 @@ wrap some c functions which using plplot to draw things, then can be called as p
 - build: gcc -o app test_plplot.c -I /usr/local/include/ -I /usr/local/include/plplot/ -lm -lgsl -lgslcblas -lplplot
 - convert ps to png: gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r200 -sDEVICE=png16m -sOutputFile=grid.png grid.ps
 ### Ctype 
-### Test 
+### Usage example 
+- Option 1. Pure C program. cd test and ./run  
+- Option 2. Python extension. 
+    - cd build, cmake ./../ & make 
+    - cd test and python test.py 
+  
