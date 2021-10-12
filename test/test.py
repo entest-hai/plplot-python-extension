@@ -14,7 +14,7 @@ numHeartRate = 45*60*4
 lib.plot_ctg_paper.argtypes = [ctl.ndpointer(np.float32),ctl.ndpointer(np.float32),ctl.ndpointer(np.float32),ctypes.c_int]
 # call the extension function
 lib.plot_ctg_paper(
-    np.array([90.0 for x in range(numHeartRate)],dtype=np.float32),
-    np.array([150.0 for x in range(numHeartRate)],dtype=np.float32),
+    np.array([90.0 + 10.0*np.sin((2.0*3.14*i)/(20*60*4)) for i in range(numHeartRate)],dtype=np.float32),
+    np.array([150.0 + 15.0*np.sin((2.0*3.14*i)/(10*60*4)) for i in range(numHeartRate)],dtype=np.float32),
     np.array([80.0 for x in range(numHeartRate)],dtype=np.float32),
     numHeartRate)
