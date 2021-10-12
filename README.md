@@ -17,9 +17,31 @@ wrap some c functions which using plplot to draw things, then can be called as p
 - simple set env to plot plsenv(xmin,xmax,ymin,ymax)
 - plot label pllab()
 - plot line plline() 
-- build: gcc -o app test_plplot.c -I /usr/local/include/ -I /usr/local/include/plplot/ -lm -lgsl -lgslcblas -lplplot
-- convert ps to png: gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r200 -sDEVICE=png16m -sOutputFile=grid.png grid.ps
-### Ctype 
+- build
+ ```
+ gcc -o app test_plplot.c -I /usr/local/include/ -I /usr/local/include/plplot/ -lm -lgsl -lgslcblas -lplplot
+```
+- convert ps to png
+ ```
+ gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -r200 -sDEVICE=png16m -sOutputFile=grid.png grid.ps
+```
+### Build python extension module with Ctypes
+- Import ctypes and load the share lib as 
+```
+lib = ctypes.CDLL('./../build/libtest.so') 
+```
+- Define data types and pass intputs from python to C extension as 
+```
+lib.plot_ctg_paper.argtypes = [ctl.ndpointer(np.float32),ctl.ndpointer(np.float32),ctl.ndpointer(np.float32),ctypes.c_int]
+```
+- Call the extension function 
+```
+lib.plot_ctg_paper(
+    np.array([90.0 for x in range(numHeartRate)],dtype=np.float32),
+    np.array([150.0 for x in range(numHeartRate)],dtype=np.float32),
+    np.array([80.0 for x in range(numHeartRate)],dtype=np.float32),
+    numHeartRate)
+```
 ### Usage example 
 - Option 1. Pure C program. cd test and ./run  
 - Option 2. Python extension. 
