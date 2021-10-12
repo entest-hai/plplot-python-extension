@@ -1,4 +1,4 @@
-![grid](https://user-images.githubusercontent.com/20411077/136932800-da64a271-2780-447b-a103-97bc7648607c.png)
+![grid](https://user-images.githubusercontent.com/20411077/136932934-8693ffb9-2525-41f5-b6af-a5ac22c488d2.png)
 [grid.pdf](https://github.com/tranminhhaifet/plplot-python-extension/files/7328797/grid.pdf)
 # python-extension-ctypes
 wrap some c functions which using plplot to draw things, then can be called as python code. 
